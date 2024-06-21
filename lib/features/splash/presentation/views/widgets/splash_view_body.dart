@@ -1,5 +1,8 @@
+import 'package:bookly_app/constants.dart';
 import 'package:bookly_app/core/utils/assets.dart';
+import 'package:bookly_app/features/home/presentation/view/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 import 'slideng_text.dart';
 
@@ -18,14 +21,8 @@ class _SplashViewBodyState extends State<SplashViewBody>
   @override
   void initState() {
     super.initState();
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
-    slidinAnimation =
-        Tween<Offset>(begin: const Offset(0, 4), end: const Offset(0, 0))
-            .animate(animationController);
-    animationController.forward();
+    initSlidingAnimation();
+    navigateToHome();
   }
 
   @override
@@ -45,5 +42,23 @@ class _SplashViewBodyState extends State<SplashViewBody>
         SlidengText(slidinAnimation: slidinAnimation),
       ],
     );
+  }
+
+  void initSlidingAnimation() {
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+    slidinAnimation =
+        Tween<Offset>(begin: const Offset(0, 4), end: const Offset(0, 0))
+            .animate(animationController);
+    animationController.forward();
+  }
+
+  void navigateToHome() {
+    Future.delayed(const Duration(seconds: 2), () {
+      Get.to(() => const HomeView(),
+          transition: Transition.fade, duration: kTranstionDuration);
+    });
   }
 }
